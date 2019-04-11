@@ -1,0 +1,39 @@
+<body>
+    <script src="//unpkg.com/mithril/mithril.js"></script>
+    <script>
+        var root = document.body
+
+        var Hello = {
+          view: function() {
+            return m("main", [
+              m("h1", {class: "title"}, "最初のMithrilアプリケーション"),
+              m("button", {onclick: increment}, count + " クリック"),
+            ])
+          }
+        }
+
+        var Splash = {
+          view: function() {
+            return m("a", {href: "#!/hello"}, "ようこそ!")
+          }
+        }
+
+        var count = 0;
+        var increment = function() {
+            m.request({
+                method: "PUT",
+                url: "//rem-rest-api.herokuapp.com/api/tutorial/1",
+                data: {count: count + 1},
+                withCredentials: true,
+            }).then(function(data){
+                count = parseInt(data.count)
+            })
+        }
+
+        m.route(root, "/splash", {
+          "/splash": Splash,
+          "/hello": Hello,
+})
+
+    </script>
+</body>
